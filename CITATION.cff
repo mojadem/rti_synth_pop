@@ -1,0 +1,43 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: rti_synth_pop
+message: Please cite this software using these metadata.
+type: software
+authors:
+  - given-names: Nick
+    family-names: Kruskamp
+    email: nkruskamp@rti.org
+    affiliation: RTI International
+    orcid: 'https://orcid.org/0000-0002-3924-0277'
+  - given-names: Caroline
+    family-names: Kery
+    email: ckery@rti.org
+    affiliation: RTI International
+    orcid: 'https://orcid.org/0000-0002-1794-3369'
+  - given-names: James
+    family-names: Rineer
+    email: jrin@rti.org
+    affiliation: RTI International
+    orcid: 'https://orcid.org/0000-0002-1398-5908'
+repository-code: 'https://github.com/RTIInternational/rti_synth_pop'
+abstract: >-
+  RTI has developed this code for creation of synthetic populations from 
+  the U.S. Census TIGER and American Community Survey (ACS) data with geospatial 
+  placement leveraging ORNL's LandScan USA data product. The resulting synthetic 
+  populations provide detailed and spatially explicit representation of the socio-demographic 
+  distribution of the U.S. population suitable for geospatial analyses and modeling use cases 
+  including microsimulation, individual and agent-based modeling (IBM/ABM).
+keywords:
+  - Synthetic Data
+  - Sythetic Population
+  - American Community Survey
+  - ACS
+  - Population
+  - Simulation
+  - Modeling
+  - Geospatial
+  - ABM
+  - IBM
+license: CC-BY-NC-SA-4.0
