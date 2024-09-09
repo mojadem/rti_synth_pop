@@ -85,6 +85,7 @@ def sample_points(record, bg_pop_arr, bg_transform, out_crs):
         # reduces the number of cell polygons that get made.
         idx_arr = np.array(range(1, count_arr.size + 1)).reshape(count_arr.shape)
         idx_arr_filtered = np.where(count_arr > 0, idx_arr, 0)
+        idx_arr_filtered = idx_arr_filtered.astype(np.int32)
 
         results = [
             {"properties": {"cell_idx": v}, "geometry": s}
