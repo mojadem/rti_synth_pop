@@ -4,7 +4,7 @@
 # nkruskamp@rti.org , ckery@rti.org, jrin@rti.org
 
 import pandas as pd
-from pyprojroot import here
+from pathlib import Path
 
 # FOR THE USER: Currently you can configure the year and states you would like to run
 # the synthetic population here. There are two requirements demonstrated below:
@@ -18,14 +18,18 @@ from pyprojroot import here
 STATE_INFO = [("WY", "56")]
 YEAR = 2019
 SURVEY = "acs5"
+
 # ======================================================================================
 
-vars_list = ["size", "age", "income", "race", "ethnicity"]
-data_dir = here() / "data"
-raw_data_dir = data_dir / "raw"
-interim_data_dir = data_dir / "interim"
-processed_data_dir = data_dir / "processed"
+SRC = Path(__file__).parent.resolve()
+DATA = SRC.joinpath("..", "..", "data").resolve()
 
+
+raw_data_dir = DATA / "raw"
+interim_data_dir = DATA / "interim"
+processed_data_dir = DATA / "processed"
+
+vars_list = ["size", "age", "income", "race", "ethnicity"]
 pums_h_col_dict = {
     "size": "NP",
     "race": "HHLDRRAC1P",
