@@ -8,20 +8,16 @@
 from pathlib import Path
 from typing import Annotated
 
-from pyarrow import parquet
 import pandas as pd
-import osgeo
 
 import duckdb
 import geopandas as gpd
-import matplotlib.pyplot as plt
 import numpy as np
 import rasterio
-from joblib import Parallel, delayed
+from joblib import Parallel
 from pytask import Product, mark, task
 from rasterio.features import shapes
 from rasterio.mask import mask
-from shapely import box
 from tqdm.auto import tqdm
 import threading
 
@@ -44,7 +40,6 @@ RNG = np.random.default_rng()
 
 
 def sample_points(record, bg_pop_arr, bg_transform, out_crs):
-
     geom = record.geometry
     household_count = record.household_count
     # if we don't have any households in the geometry, return None
@@ -151,7 +146,6 @@ for _id, kwargs in _ID_TO_KWARGS.items():
         h_sp_w_xy_output_path: Annotated[Path, Product],
         h_sp_w_geom_output_path: Annotated[Path, Product],
     ) -> None:
-
         with rasterio.open(pop_raster_path) as src:
             raster_meta = src.meta
         raster_meta

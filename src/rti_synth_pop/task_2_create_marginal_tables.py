@@ -10,8 +10,7 @@ from pathlib import Path
 from typing import Annotated
 
 import duckdb
-from pyprojroot import here
-from pytask import Product, mark, task
+from pytask import Product, task
 
 from rti_synth_pop.config import (
     STATE_INFO,

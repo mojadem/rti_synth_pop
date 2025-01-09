@@ -9,8 +9,6 @@ from pathlib import Path
 from typing import Annotated
 from zipfile import ZipFile
 
-from pyarrow import parquet
-import osgeo  # noqa
 import censusdata
 import pandas as pd
 from pytask import Product, mark, task

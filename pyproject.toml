@@ -5,5 +5,17 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "censusdata>=1.15.post1",
+    "duckdb>=1.1.3",
+    "geopandas>=1.0.1",
+    "ipfn>=1.4.4",
+    "joblib>=1.4.2",
+    "matplotlib>=3.10.0",
     "pandas>=2.2.3",
+    "pyarrow>=18.1.0",
+    "pytask>=0.5.2",
+    "rasterio>=1.4.3",
+    "scikit-learn>=1.6.0",
+    "tqdm>=4.67.1",
+    "xarray>=2025.1.1",
 ]
