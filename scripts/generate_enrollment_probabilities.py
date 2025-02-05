@@ -7,7 +7,7 @@ import requests_cache
 
 requests_cache.install_cache()
 
-STATE_FIPS = 42  # WYOMING
+STATE_FIPS = 56  # WYOMING
 YEAR = 2019
 
 # we assign enrollment to all school-aged children per household using a simple
@@ -183,7 +183,11 @@ df["prob_sum"] = df[["prob_public", "prob_private", "prob_home"]].sum(axis=1)
 
 assert np.isclose(df["prob_sum"], 1).all()
 
-# drop all irrelevant columns
-df[["state", "county", "prob_public", "prob_private", "prob_home"]].to_csv(
+# combine state and county columns into county_fips
+df["county_fips"] = df["state"] + df["county"]
+df = df.sort_values(by="county_fips", ascending=True)
+
+# save relevant columns
+df[["county_fips", "prob_public", "prob_private", "prob_home"]].to_csv(
     f"{STATE_FIPS}_enrollment_probabilities.csv", index=False
 )
