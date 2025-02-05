@@ -185,5 +185,5 @@ assert np.isclose(df["prob_sum"], 1).all()
 
 # drop all irrelevant columns
 df[["state", "county", "prob_public", "prob_private", "prob_home"]].to_csv(
-    f"{STATE_FIPS}_enrollment_probabilities.csv"
+    f"{STATE_FIPS}_enrollment_probabilities.csv", index=False
 )
