@@ -25,11 +25,8 @@ column_mappings = {
     "lon_4326": "longitude",
 }
 
-# drop insignificant columns
-df = df.drop(columns=[col for col in df.columns if col not in column_mappings])
-
-# rename columns to households.txt column names
 df = df.rename(columns=column_mappings)
+df = df.drop(columns=[col for col in df.columns if col not in households_file_columns])
 
 # remap race column
 #
