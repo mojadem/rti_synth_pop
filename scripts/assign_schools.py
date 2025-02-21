@@ -92,12 +92,13 @@ def check_household_for_school_aged_children(household: pd.Series) -> bool:
 
 
 # TODO: delete after testing
-hh_df = hh_df.head(1000)
+# hh_df = hh_df.head(1000)
 
 hh_df["needs_assignment"] = hh_df.apply(
     check_household_for_school_aged_children, axis=1
 )
 hh_df = hh_df[hh_df["needs_assignment"]]
+hh_df["assigned"] = False
 
 # rename columns for consistency in next step
 hh_df = hh_df.rename(
@@ -142,9 +143,12 @@ def distance_between_hh_and_ps(hh_id: int, ps_id: int):
 
 
 for county in counties:
+    print(f"county {county}")
     # get households and public schools in county
     hh_ids = hh_df[hh_df["stco"] == county].index.values
     ps_ids = ps_df[ps_df["stco"] == county].index.values
+
+    print(f"found {len(hh_ids)} households and {len(ps_ids)} public schools")
 
     # find the distance between every combination of household and school
     hh_ps_df = pd.DataFrame(list(product(hh_ids, ps_ids)), columns=["hh_id", "ps_id"])
@@ -164,10 +168,56 @@ for county in counties:
             continue
 
         hh = hh_df.loc[edge.hh_id]
+        if hh["assigned"]:
+            continue
+
+        hh_df.loc[edge.hh_id, "assigned"] = True
+
         hh_p_df = p_df[p_df["hh_id"] == edge.hh_id]
-        # NEXT up: check and assign persons to schools
+
+        # children enrolled in public schools have enrollment 0
+        hh_p_df = hh_p_df[hh_p_df["enrollment"] == 0]
+
+        # assign school and update enrollment
+        p_df.loc[hh_p_df.index, "school_id"] = edge.ps_id
+        enrollment[edge.ps_id] += len(hh_p_df)
+
+    # assign households that didn't get assigned
+    hh_leftover_df = hh_df[hh_df["stco"] == county & ~hh_df["assigned"]]
+    print(f"{len(hh_leftover_df)} households leftover")
+    if len(hh_leftover_df) > 0:
+        # for now, just do a second pass over edges ignoring school capacity
+        for edge in hh_ps_df.itertuples():
+            hh = hh_df.loc[edge.hh_id]
+            if hh["assigned"]:
+                continue
+
+            hh_df.loc[edge.hh_id, "assigned"] = True
+
+            hh_p_df = p_df[p_df["hh_id"] == edge.hh_id]
+
+            # children enrolled in public schools have enrollment 0
+            hh_p_df = hh_p_df[hh_p_df["enrollment"] == 0]
+
+            # assign school and update enrollment
+            p_df.loc[hh_p_df.index, "school_id"] = edge.ps_id
+            enrollment[edge.ps_id] += len(hh_p_df)
+
+# assign households that didn't get assigned
+hh_leftover_df = hh_df[~hh_df["assigned"]]
+print(f"{len(hh_leftover_df)} households at end leftover")
+for hh in hh_leftover_df.iterrows():
+    print(hh)
+
+print(hh_leftover_df)
 
 
+print(p_df)
+
+# we should probably do some sanity check between school aged children totals and
+# public school enrollment totals
+
+p_df.to_csv(f"{p_file.removesuffix('w_enrollment.csv')}w_school_assignment.csv")
 # # this will store all combinations
 # #
 # #
